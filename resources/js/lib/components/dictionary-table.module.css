@@ -1,0 +1,4 @@
+.tableTd {
+    word-break: break-all;
+    hyphens: none;
+}
