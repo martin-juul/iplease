@@ -1,21 +1,23 @@
 import './bootstrap';
-import '../css/app.css';
+import '@fontsource/poppins';
+import '@mantine/core/styles.css';
 
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { AppLayout } from '@/layout/app-layout';
+import { MantineProvider } from '@mantine/core';
+import { theme } from '@/theme';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'IPLease';
 
 createInertiaApp({
   title: (title) => `${title} - ${appName}`,
   resolve: (name) => resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')),
   setup({el, App, props}) {
     const app = (
-      <AppLayout>
+      <MantineProvider theme={theme}>
         <App {...props} />
-      </AppLayout>
+      </MantineProvider>
     );
 
     if (import.meta.env.DEV) {
@@ -27,5 +29,6 @@ createInertiaApp({
   },
   progress: {
     color: '#dba04b',
+    showSpinner: true,
   },
 });

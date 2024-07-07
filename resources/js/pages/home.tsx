@@ -1,49 +1,98 @@
+import { ReactNode } from 'react';
 import { Dictionary } from '@/types/types';
 import { Head } from '@inertiajs/react';
-import { useIps } from '@/lib/hooks/use-ips';
+import { AppShell, Card, Container, Divider, Flex, Text } from '@mantine/core';
+import { Logo } from '@/lib/components/logo';
+import { Languages } from '@/lib/components/languages';
+import { DictionaryTable } from '@/lib/components/dictionary-table';
+import { IpAddresses } from '@/lib/components/ip-addresses';
+import { QueryString } from '@/lib/components/query-string';
+import { Footer } from '@/lib/components/footer';
 
-function Section({title, json}: {title: string, json: object}) {
+type SectionProps = {
+  title: string;
+  children?: ReactNode;
+}
+
+function Section({title, children}: SectionProps) {
   return (
-    <>
-      <section>
-        <p style={{fontWeight: '600'}}>{title}</p>
+    <Card mb="sm">
+      <Text fw={500}>{title}</Text>
 
-        <pre style={{fontSize: '11px'}}>
-                    {typeof json === 'object' && JSON.stringify(json, null, 2)}
-                </pre>
-      </section>
-    </>
+      <Card.Section mt="sm">
+        {children}
+      </Card.Section>
+    </Card>
   );
 }
 
 type HomeProps = {
   cookies: Dictionary<string>;
-  ip: string;
   languages: string[];
-  headers: Dictionary<string[]>;
+  headers: Dictionary<string>;
   query: string[];
 }
 export default function Home({cookies, languages, headers, query}: HomeProps) {
-  const { ipv4, ipv6 } = useIps();
-
   return (
     <>
-      <div>
-        <Head title="Client info"/>
+      <Head title="Client info"/>
 
-        <section>
-          <p>IP v4: { ipv4 }</p>
-          <p>IP v6: { ipv6 }</p>
-        </section>
+      <AppShell>
+        <AppShell.Header>
+          <Flex align="center" ml="sm" p="md">
+            <Logo height={36}/>
+            <Text ml="sm">IPLease</Text>
+          </Flex>
+        </AppShell.Header>
 
-        <Section title="Cookies" json={cookies}/>
+        <AppShell.Main p="md" mt="md">
+          <Container fluid mt="xl">
+            <Card mb="sm">
+              <Text fz="h1" fw={600}>IP Addresses</Text>
 
-        <Section title="Languages" json={languages}/>
+              <Card.Section ml="sm">
+                <IpAddresses/>
+              </Card.Section>
+            </Card>
 
-        <Section title="Headers" json={headers}/>
+            <Divider/>
 
-        <Section title="Query" json={query}/>
-      </div>
+            <Section
+              title="Cookies"
+            >
+              <DictionaryTable dictionary={cookies}/>
+            </Section>
+
+            <Divider/>
+
+            <Section
+              title="Languages"
+            >
+              <Languages languages={languages}/>
+            </Section>
+
+            <Divider/>
+
+            <Section
+              title="Headers"
+            >
+              <DictionaryTable dictionary={headers}/>
+            </Section>
+
+            <Divider/>
+
+            <Section
+              title="Query string"
+            >
+              <QueryString query={query}/>
+            </Section>
+          </Container>
+        </AppShell.Main>
+
+        <AppShell.Footer>
+          <Footer/>
+        </AppShell.Footer>
+      </AppShell>
     </>
   );
 }

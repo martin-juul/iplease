@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
 export function useIps() {
-  const [ipv4, setIpv4] = useState<string | null>(null);
-  const [ipv6, setIpv6] = useState<string | null>(null);
+  const [ipv4, setIpv4] = useState<string | undefined | null>(undefined);
+  const [ipv6, setIpv6] = useState<string | undefined | null>(undefined);
 
   const getIpv4 = () => {
     return new Promise<string | null>((resolve) => {
