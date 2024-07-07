@@ -7,12 +7,11 @@ use Inertia\Inertia;
 
 class HomeController
 {
-    public function index(Request $request)
+    public function __invoke(Request $request)
     {
-        return Inertia::render('Home', [
+        return inertia('home', [
             'cookies' => $request->cookies->all(),
             'headers' => $request->headers->all(),
-            'ip' => $request->ip(),
             'languages' => $request->getLanguages(),
             'query' => $request->query->all(),
         ]);

@@ -1,0 +1,46 @@
+services:
+  nginx:
+    image: martinjuul/iplease-nginx:latest
+    container_name: iplease-nginx
+    build:
+      context: ./docker/
+      args:
+        BUILD_ARGUMENT_ENV: dev
+      dockerfile: ./nginx/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT_HTTP}:80"
+      - "${WEB_PORT_TLS}:443"
+    networks:
+      - iplease-backtier
+    volumes:
+      - ./:/var/www/html:ro,cached
+    depends_on:
+      - app
+
+  app: &app-template
+    image: martinjuul/iplease-app:latest
+    container_name: iplease-app
+    build:
+      context: .
+      args:
+        BUILD_ARGUMENT_ENV: dev
+        HOST_UID: ${HOST_UID}
+        HOST_GID: ${HOST_GID}
+        XDEBUG_CONFIG: ${XDEBUG_CONFIG}
+        XDEBUG_VERSION: ${XDEBUG_VERSION}
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./:/var/www/html:cached
+    networks:
+      - iplease-backtier
+
+  supervisord:
+    <<: *app-template
+    container_name: iplease-scheduler
+    expose: []
+    command: ["/usr/bin/supervisord"]
+
+networks:
+  iplease-backtier:
+    name: iplease-backtier
