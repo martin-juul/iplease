@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite'
 import laravel from 'laravel-vite-plugin';
 import react from '@vitejs/plugin-react';
+import manifestSRI from 'vite-plugin-manifest-sri';
+
 import { resolve } from 'path';
 
 // https://vitejs.dev/config/
@@ -12,6 +14,7 @@ export default defineConfig({
       refresh: true,
     }),
     react(),
+    manifestSRI(),
   ],
   resolve: {
     alias: {

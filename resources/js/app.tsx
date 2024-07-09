@@ -1,6 +1,7 @@
 import './bootstrap';
 import '@fontsource/poppins';
 import '@mantine/core/styles.css';
+import { Ziggy } from './ziggy.js';
 
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
@@ -9,6 +10,9 @@ import { MantineProvider } from '@mantine/core';
 import { theme } from '@/theme';
 
 const appName = import.meta.env.VITE_APP_NAME || 'IPLease';
+
+
+window.Ziggy = Ziggy;
 
 createInertiaApp({
   title: (title) => `${title} - ${appName}`,

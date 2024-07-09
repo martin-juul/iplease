@@ -16,10 +16,10 @@ type SectionProps = {
 
 function Section({title, children}: SectionProps) {
   return (
-    <Card mb="sm">
-      <Text fw={500}>{title}</Text>
+    <Card mb="sm" mt="sm">
+      <Card.Section>
+        <Text size="lg" mb="sm" fw={600}>{title}</Text>
 
-      <Card.Section mt="sm">
         {children}
       </Card.Section>
     </Card>
@@ -39,23 +39,26 @@ export default function Home({cookies, languages, headers, query}: HomeProps) {
 
       <AppShell>
         <AppShell.Header>
-          <Flex align="center" ml="sm" p="md">
+          <Flex justify="center" align="center" p="md">
             <Logo height={36}/>
             <Text ml="sm">IPLease</Text>
           </Flex>
         </AppShell.Header>
 
-        <AppShell.Main p="md" mt="md">
-          <Container fluid mt="xl">
-            <Card mb="sm">
-              <Text fz="h1" fw={600}>IP Addresses</Text>
+        <AppShell.Main>
+          <Container fluid pt="xl" mt="xl">
+            <Container>
+              <Card mb="sm" withBorder shadow="sm" radius="md">
+                <Flex align="center" direction="column">
+                  <Card.Section ml="sm">
+                    <Text fz="h1" fw={600} ta="center">Your IPs</Text>
+                    <IpAddresses/>
+                  </Card.Section>
+                </Flex>
+              </Card>
+            </Container>
 
-              <Card.Section ml="sm">
-                <IpAddresses/>
-              </Card.Section>
-            </Card>
-
-            <Divider/>
+            <Divider mt="lg" />
 
             <Section
               title="Cookies"
@@ -63,7 +66,7 @@ export default function Home({cookies, languages, headers, query}: HomeProps) {
               <DictionaryTable dictionary={cookies}/>
             </Section>
 
-            <Divider/>
+            <Divider mt="lg" />
 
             <Section
               title="Languages"
@@ -71,7 +74,7 @@ export default function Home({cookies, languages, headers, query}: HomeProps) {
               <Languages languages={languages}/>
             </Section>
 
-            <Divider/>
+            <Divider mt="lg" />
 
             <Section
               title="Headers"
@@ -79,7 +82,7 @@ export default function Home({cookies, languages, headers, query}: HomeProps) {
               <DictionaryTable dictionary={headers}/>
             </Section>
 
-            <Divider/>
+            <Divider mt="lg" />
 
             <Section
               title="Query string"

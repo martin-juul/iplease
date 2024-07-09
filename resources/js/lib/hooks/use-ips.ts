@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { route } from 'ziggy-js';
 
 export function useIps() {
   const [ipv4, setIpv4] = useState<string | undefined | null>(undefined);

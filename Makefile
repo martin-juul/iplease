@@ -8,6 +8,7 @@ ifneq ("$(wildcard .env)","")
 	include .env
 endif
 
+PROD_IMAGE_NAME = "martinjuul/iplease"
 HOST_UID := $(shell id -u)
 HOST_GID := $(shell id -g)
 PHP_USER := -u www-data
@@ -29,12 +30,8 @@ else
 	$(ERROR_ONLY_FOR_HOST)
 endif
 
-build-prod: ## Build prod environment
-ifeq ($(INSIDE_DOCKER_CONTAINER), 0)
-	@HOST_UID=$(HOST_UID) HOST_GID=$(HOST_GID) WEB_PORT_HTTP=$(WEB_PORT_HTTP) WEB_PORT_SSL=$(WEB_PORT_SSL) docker compose -f docker-compose-prod.yml build
-else
-	$(ERROR_ONLY_FOR_HOST)
-endif
+build-prod: ## Build prod image
+	@docker build -t $(PROD_IMAGE_NAME) -f production.Dockerfile .
 
 start: ## Start dev environment
 ifeq ($(INSIDE_DOCKER_CONTAINER), 0)

@@ -13,7 +13,10 @@
         <meta name="application-name" content="IPLease">
         <meta name="msapplication-TileColor" content="#ededed">
         <meta name="theme-color" content="#ffffff">
-        @routes
+        @routes(nonce: Vite::cspNonce())
+        <script nonce="{{ Vite::cspNonce() }}">
+          Ziggy.url = '{{ config('app.url') }}'
+        </script>
         @viteReactRefresh
         @vite(['resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
         @inertiaHead
